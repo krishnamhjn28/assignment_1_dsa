@@ -15,7 +15,7 @@ void bubbleSort(int arr[], int n) {
 int countDistinct(int arr[], int n) {
     bubbleSort(arr, n);
 
-    int count = 1; // First element is always distinct
+    int count = 1; 
     for (int i = 1; i < n; ++i) {
         if (arr[i] != arr[i - 1]) {
             count++;
