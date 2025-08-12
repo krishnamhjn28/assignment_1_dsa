@@ -29,7 +29,7 @@ int main() {
     cout << "Enter number of elements: ";
     cin >> n;
 
-    int arr[100]; // Assumes n <= 100
+    int arr[100]; 
     cout << "Enter array elements:\n";
     for (int i = 0; i < n; ++i) {
         cin >> arr[i];
