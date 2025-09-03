@@ -1,0 +1,26 @@
+#include<iostream>
+#include<stack>
+using namespace std;
+int main(){
+    stack<int> st;
+    //1 
+    st.push(9);
+    st.push(10);
+    st.push(11);
+    st.push(12);
+    st.push(13);
+    stack <int> temp;
+    while(st.size()>0){
+        int x =st.top();
+        st.pop();
+        temp.push(x);
+        
+    }
+    while(temp.size()>0){
+        cout<<temp.top()<<endl;
+        temp.pop();
+    }
+    cout<<temp.size()<<endl;
+    cout<<st.empty();
+    
+}
