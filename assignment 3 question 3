@@ -1,0 +1,37 @@
+#include<iostream>
+#include<stack>
+#include<vector>
+#include<string>
+using namespace std;
+int main(){
+    string s="())(()()";
+    int count=0;
+    if(s.length()%2!=0){
+        cout<<"unbalanced";
+    }
+    if(s.length()%2==0){
+    stack<char> st;
+    
+    for(int i=0;i<s.length();i++){
+        if(s[i]=='('){
+            st.push(s[i]);
+            count++;
+        }
+        if(s[i]==')'){
+            if(st.size()==0){
+                cout<<"unbalanced";
+                break;
+            }
+            if(st.size()!=0){
+                st.pop();
+                count++;
+            }
+        }
+    }
+    if(count==s.length()){
+        cout<<"balanced";
+    }
+    if(count!=s.length()) cout<<"unbalanced";
+}
+    
+}
