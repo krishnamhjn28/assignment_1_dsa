@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <algorithm>
+using namespace std;
+
+bool canSortWithStack(vector<int>& A) {
+    stack<int> S;
+    vector<int> sortedA = A;
+    sort(sortedA.begin(), sortedA.end());
+    int j = 0;
+
+    for (int i = 0; i < A.size(); i++) {
+        S.push(A[i]);
+        while (!S.empty() && S.top() == sortedA[j]) {
+            S.pop();
+            j++;
+        }
+    }
+    return S.empty();
+}
+
+int main() {
+    vector<int> A = {3, 1, 2};
+    if (canSortWithStack(A)) {
+        cout << "YES\n";
+    } else {
+        cout << "NO\n";
+    }
+    return 0;
+}
