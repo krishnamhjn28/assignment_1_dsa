@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int val;
+    Node* next;
+    Node(int val) {
+        this->val = val;
+        this->next = NULL;
+    }
+};
+
+class Reverse_ll {
+public:
+    Node* head;
+    Node* tail;
+    int size;
+
+    Reverse_ll() {
+        head = tail = NULL;
+        size = 0;
+    }
+
+    void insertATfront(int val) {
+        Node* temp = new Node(val);
+        if (head == NULL) {
+            head = tail = temp;
+        } else {
+            temp->next = head;
+            head = temp;
+        }
+        size++;
+    }
+
+   
+    void reverse() {
+        Node* prev = NULL;
+        Node* curr = head;
+        Node* nxt = NULL;
+
+        tail = head;
+
+        while (curr != NULL) {
+            nxt = curr->next;   
+            curr->next = prev; 
+            prev = curr;        
+            curr = nxt;         
+        }
+
+        head = prev; 
+    }
+
+    void display() {
+        Node* temp = head;
+        while (temp != NULL) {
+            cout << temp->val;
+            if (temp->next) cout << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    Reverse_ll ll;
+
+    ll.insertATfront(10);
+    ll.insertATfront(20);
+    ll.insertATfront(30);
+    ll.insertATfront(40);
+
+    cout << "Original list: ";
+    ll.display();  
+
+    ll.reverse();
+
+    cout << "Reversed list: ";
+    ll.display();  
+
+    return 0;
+}
