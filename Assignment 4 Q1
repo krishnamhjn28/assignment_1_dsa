@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+#define SIZE 5
+
+class Queue {
+    int arr[SIZE];
+    int front, rear;
+
+public:
+    Queue() {
+        front = -1;
+        rear = -1;
+    }
+
+    void enqueue(int val) {
+        if (rear == SIZE - 1) {
+            cout << "Queue is full!\n";
+        } else {
+            if (front == -1)
+                front = 0;
+            rear++;
+            arr[rear] = val;
+            cout << val << " added to queue\n";
+        }
+    }
+
+    void dequeue() {
+        if (front == -1 || front > rear) {
+            cout << "Queue is empty!\n";
+        } else {
+            cout << arr[front] << " removed from queue\n";
+            front++;
+        }
+    }
+
+    void peek() {
+        if (front == -1 || front > rear)
+            cout << "Queue is empty!\n";
+        else
+            cout << "Front element is: " << arr[front] << endl;
+    }
+
+    void display() {
+        if (front == -1 || front > rear)
+            cout << "Queue is empty!\n";
+        else {
+            cout << "Queue elements: ";
+            for (int i = front; i <= rear; i++)
+                cout << arr[i] << " ";
+            cout << endl;
+        }
+    }
+};
+
+int main() {
+    Queue q;
+    int choice = 0;
+    int val;
+
+    while (choice != 5) {
+        cout << "\n1. Enqueue\n2. Dequeue\n3. Peek\n4. Display\n5. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "Enter value: ";
+            cin >> val;
+            q.enqueue(val);
+        } else if (choice == 2) {
+            q.dequeue();
+        } else if (choice == 3) {
+            q.peek();
+        } else if (choice == 4) {
+            q.display();
+        } else if (choice == 5) {
+            cout << "Exiting...\n";
+        } else {
+            cout << "Invalid choice!\n";
+        }
+    }
+
+    return 0;
+}
