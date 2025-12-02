@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    char data;
+    Node* next;
+    Node* prev;
+    Node(char d) {
+        data = d;
+        next = NULL;
+        prev = NULL;
+    }
+};
+
+class DoublyLL {
+public:
+    Node* head;
+    DoublyLL() {
+        head = NULL;
+    }
+
+    void insertLast(char v) {
+        Node* n = new Node(v);
+        if (!head) head = n;
+        else {
+            Node* t = head;
+            while (t->next) t = t->next;
+            t->next = n;
+            n->prev = t;
+        }
+    }
+
+    bool isPalindrome() {
+        Node* left = head;
+        Node* right = head;
+        while (right->next) right = right->next;
+        while (left && right && left != right && left->prev != right) {
+            if (left->data != right->data) return false;
+            left = left->next;
+            right = right->prev;
+        }
+        return true;
+    }
+};
+
+int main() {
+    DoublyLL d;
+    int n;
+    cin >> n;
+    char x;
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        d.insertLast(x);
+    }
+    cout << (d.isPalindrome() ? "Palindrome" : "Not Palindrome");
+    return 0;
+}
