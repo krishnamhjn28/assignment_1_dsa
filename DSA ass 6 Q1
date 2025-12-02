@@ -1,0 +1,235 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    Node* prev;
+    Node(int d) {
+        data = d;
+        next = NULL;
+        prev = NULL;
+    }
+};
+
+class DoublyLL {
+public:
+    Node* head;
+    DoublyLL() {
+        head = NULL;
+    }
+
+    void insertFirst(int v) {
+        Node* n = new Node(v);
+        if (!head) head = n;
+        else {
+            n->next = head;
+            head->prev = n;
+            head = n;
+        }
+    }
+
+    void insertLast(int v) {
+        Node* n = new Node(v);
+        if (!head) head = n;
+        else {
+            Node* t = head;
+            while (t->next) t = t->next;
+            t->next = n;
+            n->prev = t;
+        }
+    }
+
+    void insertAfter(int key, int v) {
+        if (!head) return;
+        Node* t = head;
+        while (t && t->data != key) t = t->next;
+        if (!t) return;
+        Node* n = new Node(v);
+        n->next = t->next;
+        n->prev = t;
+        if (t->next) t->next->prev = n;
+        t->next = n;
+    }
+
+    void deleteNode(int key) {
+        if (!head) return;
+        Node* t = head;
+        if (t->data == key) {
+            head = t->next;
+            if (head) head->prev = NULL;
+            delete t;
+            return;
+        }
+        while (t && t->data != key) t = t->next;
+        if (!t) return;
+        if (t->prev) t->prev->next = t->next;
+        if (t->next) t->next->prev = t->prev;
+        delete t;
+    }
+
+    bool search(int key) {
+        Node* t = head;
+        while (t) {
+            if (t->data == key) return true;
+            t = t->next;
+        }
+        return false;
+    }
+
+    void display() {
+        Node* t = head;
+        while (t) {
+            cout << t->data << " ";
+            t = t->next;
+        }
+        cout << endl;
+    }
+};
+
+class CircularLL {
+public:
+    Node* head;
+    CircularLL() {
+        head = NULL;
+    }
+
+    void insertFirst(int v) {
+        Node* n = new Node(v);
+        if (!head) {
+            head = n;
+            n->next = head;
+        }
+        else {
+            Node* t = head;
+            while (t->next != head) t = t->next;
+            n->next = head;
+            t->next = n;
+            head = n;
+        }
+    }
+
+    void insertLast(int v) {
+        Node* n = new Node(v);
+        if (!head) {
+            head = n;
+            n->next = head;
+        }
+        else {
+            Node* t = head;
+            while (t->next != head) t = t->next;
+            t->next = n;
+            n->next = head;
+        }
+    }
+
+    void insertAfter(int key, int v) {
+        if (!head) return;
+        Node* t = head;
+        do {
+            if (t->data == key) {
+                Node* n = new Node(v);
+                n->next = t->next;
+                t->next = n;
+                return;
+            }
+            t = t->next;
+        } while (t != head);
+    }
+
+    void deleteNode(int key) {
+        if (!head) return;
+        Node* t = head;
+        Node* p = NULL;
+        do {
+            if (t->data == key) {
+                if (t == head) {
+                    Node* last = head;
+                    while (last->next != head) last = last->next;
+                    if (head->next == head) {
+                        delete head;
+                        head = NULL;
+                        return;
+                    }
+                    head = head->next;
+                    last->next = head;
+                    delete t;
+                    return;
+                }
+                else {
+                    p->next = t->next;
+                    delete t;
+                    return;
+                }
+            }
+            p = t;
+            t = t->next;
+        } while (t != head);
+    }
+
+    bool search(int key) {
+        if (!head) return false;
+        Node* t = head;
+        do {
+            if (t->data == key) return true;
+            t = t->next;
+        } while (t != head);
+        return false;
+    }
+
+    void display() {
+        if (!head) return;
+        Node* t = head;
+        do {
+            cout << t->data << " ";
+            t = t->next;
+        } while (t != head);
+        cout << endl;
+    }
+};
+
+int main() {
+    int type;
+    cout << "1. Doubly Linked List\n2. Circular Linked List\nChoose: ";
+    cin >> type;
+
+    DoublyLL d;
+    CircularLL c;
+
+    int ch, v, key;
+    do {
+        cout << "1 Insert First\n2 Insert Last\n3 Insert After\n4 Delete\n5 Search\n6 Display\n0 Exit\n";
+        cin >> ch;
+
+        if (ch == 0) break;
+
+        switch (ch) {
+            case 1:
+                cin >> v;
+                if (type == 1) d.insertFirst(v); else c.insertFirst(v);
+                break;
+            case 2:
+                cin >> v;
+                if (type == 1) d.insertLast(v); else c.insertLast(v);
+                break;
+            case 3:
+                cin >> key >> v;
+                if (type == 1) d.insertAfter(key, v); else c.insertAfter(key, v);
+                break;
+            case 4:
+                cin >> key;
+                if (type == 1) d.deleteNode(key); else c.deleteNode(key);
+                break;
+            case 5:
+                cin >> key;
+                cout << ((type == 1) ? d.search(key) : c.search(key)) << endl;
+                break;
+            case 6:
+                if (type == 1) d.display(); else c.display();
+                break;
+        }
+    } while (true);
+
+    return 0;
+}
